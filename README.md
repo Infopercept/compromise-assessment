@@ -75,7 +75,7 @@ Copyright 2022 Infopercept. [Copy of the license](LICENSE.txt).
 
 ## 🎭 Support
 * [Email](mailto:sos@infopercept.com)
-* [Open issue](https://github.com/Infopercept/gsos/issues)
+* [Open issue](https://github.com/Infopercept/compromise-assessment/issues)
 * [Infopercept.com](https://infopercept.com/contact)
 
 
