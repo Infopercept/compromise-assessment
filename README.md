@@ -58,8 +58,8 @@
 
 ## 🎦 Repository Visualization
 <div align="center">
-    <img alt="Report" src="https://github.com/BhavikDevInfopercept/Compromise-Assesment-Python-Script/blob/master/templates/report-ss.png" /><br>
-    <img alt="Report" src="https://github.com/BhavikDevInfopercept/Compromise-Assesment-Python-Script/blob/master/templates/report-ss-2.png" />
+    <img alt="Report" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/report-ss.png" /><br>
+    <img alt="Report" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/report-ss-2.png" />
 </div>
 
 
