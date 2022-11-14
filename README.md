@@ -1,8 +1,8 @@
 <div>
   <h1 align="center">Compromise assessment script</h1>
   <br>
-  <img align="left" alt="Invinsense logo" src="https://github.com/BhavikDevInfopercept/Compromise-Assesment-Python-Script/blob/master/templates/Invinsense_logo_tagline.svg" width="300px">
-  <img align="right" alt="Infopercept logo" src="https://github.com/BhavikDevInfopercept/Compromise-Assesment-Python-Script/blob/master/templates/Infopercept_logo%202.svg" width="300px">
+  <img align="left" alt="Invinsense logo" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/Invinsense_logo_tagline.svg" width="300px">
+  <img align="right" alt="Infopercept logo" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/Infopercept_logo%202.svg" width="300px">
   <br>
 </div>
 <br>
