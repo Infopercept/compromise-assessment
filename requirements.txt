@@ -1,0 +1,5 @@
+argparse
+jinja2
+numpy
+boto3
+pypiwin32

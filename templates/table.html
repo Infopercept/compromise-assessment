@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudTrail Events Logs</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="templates/style.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="templates/Infopercept_logo 2.svg" style="width: 350px; margin-top: 10px; margin-bottom: 10px;"
+                    alt="infopercept logo" />
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="templates/Invinsense_logo_tagline.svg"
+                    style="width: 350px; margin-top: 10px; margin-bottom: 10px;" alt="infopercept logo" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Report Information</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Version: </strong>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Commmand used: </strong>{{ params }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date and Time: </strong>{{ dt }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Assessment Summary</th>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS AccountId: </strong>{{ acc_id }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Region: </strong>{{ region }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Event Type: </strong>{{ event_type }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px;margin-bottom:10px;">
+            <div class="col-md-6">
+                <canvas id="mybar" width="400" height="420"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="mypie" width="400" height="50"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th colspan="8" class="text-center">
+                                <h3>Analytics</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Initial Access</th>
+                            <th>Recon</th>
+                            <th>Credential Access</th>
+                            <th>Privilege Esclation</th>
+                            <th>Data Exfiltration</th>
+                            <th>Persistence</th>
+                            <th>Collection</th>
+                            <th>Others</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row text-center">
+                            <td><a href="javascript:" onclick="setSearch('Intial Access')">{{analysistable["InitialAccess"]}}</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Recon')">{{analysistable["Recon"]}}</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Credential Access')">{{analysistable["CredentialAccess"]}}</a>
+                            </td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Privilege Esclation')">{{analysistable["PrivilegeEsclation"]}}</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Data Exfiltration')">{{analysistable["DataExfiltration"]}}</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Persistence')">{{analysistable["Persistence"]}}</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Collection')">{{analysistable["Collection"]}}</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Others')">{{analysistable["Others"]}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table" id="myTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th colspan="7">
+                                <h3>CloudTrail Events Logs</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Sr.No</th>
+                            <th>EventCategory</th>
+                            <th>EventName</th>
+                            <th>EventTime</th>
+                            <th>ResourceName</th>
+                            <th>ResourceType</th>
+                            <th>SourceIPAddress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for (ec,en,et,rn,rt,sia) in datas %}
+                        <tr class="active-row">
+                            <td class="text-center">{{loop.index}}</td>
+                            <td class="text-left">{{ec}}</td>
+                            <td class="text-left">{{en}}</td>
+                            <td class="text-center">{{et}}</td>
+                            <td class="text-center">{{rn}}</td>
+                            <td class="text-center">{{rt}}</td>
+                            <td class="text-center">{{sia}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        var dataTable;
+        function setSearch(value) {
+            var e = $("input[aria-controls='myTable']");
+            e.val(value);
+            dataTable.search(e.val()).draw();
+        }
+        $(document).ready(function () {
+            dataTable = $('#myTable').DataTable({
+                "searching": true
+            });
+        });
+    </script>
+    <script>
+        var users = '{{ analysistable | tojson | safe }}'
+        const object1 = JSON.parse(users);
+        
+        const ctx = document.getElementById('mybar').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(object1),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object1),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'   
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        var users = '{{ analysistable | tojson | safe }}'
+        const object2 = JSON.parse(users);
+
+        const ctx1 = document.getElementById('mypie').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(object2),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object2),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    hoverOffset: 7
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>

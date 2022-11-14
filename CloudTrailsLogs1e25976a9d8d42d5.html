@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudTrail Events Logs</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="templates/style.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="templates/Infopercept_logo 2.svg" style="width: 350px; margin-top: 10px; margin-bottom: 10px;"
+                    alt="infopercept logo" />
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="templates/Invinsense_logo_tagline.svg"
+                    style="width: 350px; margin-top: 10px; margin-bottom: 10px;" alt="infopercept logo" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Report Information</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Version: </strong>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Commmand used: </strong>compromise-assessment.py -days 90 -record_limit 1000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date and Time: </strong>2022-11-10 11:32:45.058304</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Assessment Summary</th>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS AccountId: </strong>705936790399</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Region: </strong>us-east-1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Event Type: </strong>AwsApiCall</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px;margin-bottom:10px;">
+            <div class="col-md-6">
+                <canvas id="mybar" width="400" height="420"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="mypie" width="400" height="50"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th colspan="8" class="text-center">
+                                <h3>Analytics</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Initial Access</th>
+                            <th>Recon</th>
+                            <th>Credential Access</th>
+                            <th>Privilege Esclation</th>
+                            <th>Data Exfiltration</th>
+                            <th>Persistence</th>
+                            <th>Collection</th>
+                            <th>Other</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row text-center">
+                            <td><a href="javascript:" onclick="setSearch('Intial Access')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Recon')">193</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Credential Access')">0</a>
+                            </td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Privilege Esclation')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Data Exfiltration')">0</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Persistence')">0</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Collection')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Others')">0</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table" id="myTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th colspan="7">
+                                <h3>CloudTrail Events Logs</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Sr.No</th>
+                            <th>EventCategory</th>
+                            <th>EventName</th>
+                            <th>EventTime</th>
+                            <th>ResourceName</th>
+                            <th>ResourceType</th>
+                            <th>SourceIPAddress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">1</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">2</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">3</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">4</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 11:18:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">5</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 11:18:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">6</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 11:18:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">7</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 11:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">8</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">9</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">10</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">11</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">12</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:18:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">13</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:14:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">14</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:13:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">15</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:13:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">16</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:13:06+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">17</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:13:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">18</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:13:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">19</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:10:40+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">20</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 11:10:40+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">21</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">22</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">23</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">24</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">25</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">26</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">27</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">28</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">29</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">30</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">31</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">32</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:08:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">33</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:57+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">34</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:54+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">35</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">36</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">37</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">38</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 11:03:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">39</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 11:00:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">40</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 11:00:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">41</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">42</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">43</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">44</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:58:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">45</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:58:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">46</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:58:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">47</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:58:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">48</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:58:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">49</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">50</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">51</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">52</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:58:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">53</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">54</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">55</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">56</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">57</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:02+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">58</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:53:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">59</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:50:40+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">60</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:50:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">61</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">62</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">63</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">64</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:48:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">65</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:48:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">66</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">67</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">68</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">69</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:48:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">70</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:06+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">71</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">72</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:48:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">73</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">74</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">75</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">76</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:06+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">77</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">78</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:43:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">79</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:40:40+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">80</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:40:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">81</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">82</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">83</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">84</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:38:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">85</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:38:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">86</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:38:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">87</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:38:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">88</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:38:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">89</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:38:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">90</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">91</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">92</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:38:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">93</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">94</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">95</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">96</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">97</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">98</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:33:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">99</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:30:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">100</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:30:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">101</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">102</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">103</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:28:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">104</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:28:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">105</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">106</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:28:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">107</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:28:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">108</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:28:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">109</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:28:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">110</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">111</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:02+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">112</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:28:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">113</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">114</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">115</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">116</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">117</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">118</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:23:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">119</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:20:41+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">120</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:20:40+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">121</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">122</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">123</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">124</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">125</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">126</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">127</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">128</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:18:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">129</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:18:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">130</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">131</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">132</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:18:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">133</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:54+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">134</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">135</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">136</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">137</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:02+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">138</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:13:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">139</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:10:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">140</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:10:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">141</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">142</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">143</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">144</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 10:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">145</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">146</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 10:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">147</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">148</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 10:08:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">149</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 10:08:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">150</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">151</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">152</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:08:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">153</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:54+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">154</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">155</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:49+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">156</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:10+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">157</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:08+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">158</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 10:03:01+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">159</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 10:00:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">160</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 10:00:39+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">161</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:54+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">162</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:52+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">163</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">164</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">165</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">166</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">167</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">168</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">169</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 09:58:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">170</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">171</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:02+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">172</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:58:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">173</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">174</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">175</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">176</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:04+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">177</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:02+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">178</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:53:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">179</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeLaunchTemplates</td>
+                            <td class="text-center">2022-11-10 09:50:38+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">180</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 09:50:38+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">181</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">182</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:53+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">183</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:50+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">184</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetEbsDefaultKmsKeyId</td>
+                            <td class="text-center">2022-11-10 09:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">185</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeVolumes</td>
+                            <td class="text-center">2022-11-10 09:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">186</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">ListRetirableGrants</td>
+                            <td class="text-center">2022-11-10 09:48:48+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">187</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 09:48:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">188</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeInstances</td>
+                            <td class="text-center">2022-11-10 09:48:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">189</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">DescribeSnapshots</td>
+                            <td class="text-center">2022-11-10 09:48:47+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">mgn.amazonaws.com</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">190</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:05+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">191</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:03+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">192</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:48:00+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">193</td>
+                            <td class="text-left">Others</td>
+                            <td class="text-left">GetCallerIdentity</td>
+                            <td class="text-center">2022-11-10 09:43:55+05:30</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">None</td>
+                            <td class="text-center">103.54.21.209</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        var dataTable;
+        function setSearch(value) {
+            var e = $("input[aria-controls='myTable']");
+            e.val(value);
+            dataTable.search(e.val()).draw();
+        }
+        $(document).ready(function () {
+            dataTable = $('#myTable').DataTable({
+                "searching": true
+            });
+        });
+    </script>
+    <script>
+        var users = '{"Collection": 0, "CredentialAccess": 0, "DataExfiltration": 0, "InitialAccess": 0, "Others": 0, "Persistence": 0, "PrivilegeEsclation": 0, "Recon": 193}'
+        const object1 = JSON.parse(users);
+        
+        const ctx = document.getElementById('mybar').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(object1),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object1),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'   
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        var users = '{"Collection": 0, "CredentialAccess": 0, "DataExfiltration": 0, "InitialAccess": 0, "Others": 0, "Persistence": 0, "PrivilegeEsclation": 0, "Recon": 193}'
+        const object2 = JSON.parse(users);
+
+        const ctx1 = document.getElementById('mypie').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(object2),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object2),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    hoverOffset: 7
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudTrail Events Logs</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="templates/style.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="templates/Infopercept_logo 2.svg" style="width: 350px; margin-top: 10px; margin-bottom: 10px;"
+                    alt="infopercept logo" />
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="templates/Invinsense_logo_tagline.svg"
+                    style="width: 350px; margin-top: 10px; margin-bottom: 10px;" alt="infopercept logo" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Report Information</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Version: </strong>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Commmand used: </strong>compromise-assessment.py -days 90 -record_limit 1000 -service_name iam</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date and Time: </strong>2022-11-10 11:35:42.766918</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                    <tr class="text-center">
+                        <th class="bg-light">Assessment Summary</th>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS AccountId: </strong>705936790399</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Region: </strong>us-east-1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS Event Type: </strong>AwsApiCall</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px;margin-bottom:10px;">
+            <div class="col-md-6">
+                <canvas id="mybar" width="400" height="420"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="mypie" width="400" height="50"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th colspan="8" class="text-center">
+                                <h3>Analytics</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Initial Access</th>
+                            <th>Recon</th>
+                            <th>Credential Access</th>
+                            <th>Privilege Esclation</th>
+                            <th>Data Exfiltration</th>
+                            <th>Persistence</th>
+                            <th>Collection</th>
+                            <th>Other</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row text-center">
+                            <td><a href="javascript:" onclick="setSearch('Intial Access')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Recon')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Credential Access')">0</a>
+                            </td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Privilege Esclation')">7</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Data Exfiltration')">0</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Persistence')">1</a></td>
+                            <td><a href="javascript:"
+                                    onclick="setSearch('Collection')">0</a></td>
+                            <td><a href="javascript:" onclick="setSearch('Others')">0</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="styled-table" id="myTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th colspan="7">
+                                <h3>CloudTrail Events Logs</h3>
+                            </th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Sr.No</th>
+                            <th>EventCategory</th>
+                            <th>EventName</th>
+                            <th>EventTime</th>
+                            <th>ResourceName</th>
+                            <th>ResourceType</th>
+                            <th>SourceIPAddress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">1</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">AddUserToGroup</td>
+                            <td class="text-center">2022-10-04 15:01:54+05:30</td>
+                            <td class="text-center">test</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">2</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">CreateLoginProfile</td>
+                            <td class="text-center">2022-10-04 14:56:10+05:30</td>
+                            <td class="text-center">test</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">3</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">AddUserToGroup</td>
+                            <td class="text-center">2022-10-04 14:56:09+05:30</td>
+                            <td class="text-center">test</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">4</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">CreateUser</td>
+                            <td class="text-center">2022-10-04 14:56:08+05:30</td>
+                            <td class="text-center">test</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">5</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">CreateAccessKey</td>
+                            <td class="text-center">2022-10-04 10:56:35+05:30</td>
+                            <td class="text-center">AKIA2IXI4SN746G3BGUS</td>
+                            <td class="text-center">AWS::IAM::AccessKey</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">6</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">CreateLoginProfile</td>
+                            <td class="text-center">2022-09-26 14:18:43+05:30</td>
+                            <td class="text-center">Trupti</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">7</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">AddUserToGroup</td>
+                            <td class="text-center">2022-09-26 14:18:42+05:30</td>
+                            <td class="text-center">Trupti</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                        <tr class="active-row">
+                            <td class="text-center">8</td>
+                            <td class="text-left">Recon</td>
+                            <td class="text-left">CreateUser</td>
+                            <td class="text-center">2022-09-26 14:18:41+05:30</td>
+                            <td class="text-center">arn:aws:iam::705936790399:user/Trupti</td>
+                            <td class="text-center">AWS::IAM::User</td>
+                            <td class="text-center">AWS Internal</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        var dataTable;
+        function setSearch(value) {
+            var e = $("input[aria-controls='myTable']");
+            e.val(value);
+            dataTable.search(e.val()).draw();
+        }
+        $(document).ready(function () {
+            dataTable = $('#myTable').DataTable({
+                "searching": true
+            });
+        });
+    </script>
+    <script>
+        var users = '{"Collection": 0, "CredentialAccess": 0, "DataExfiltration": 0, "InitialAccess": 0, "Others": 0, "Persistence": 1, "PrivilegeEsclation": 7, "Recon": 0}'
+        const object1 = JSON.parse(users);
+        
+        const ctx = document.getElementById('mybar').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(object1),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object1),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'   
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        var users = '{"Collection": 0, "CredentialAccess": 0, "DataExfiltration": 0, "InitialAccess": 0, "Others": 0, "Persistence": 1, "PrivilegeEsclation": 7, "Recon": 0}'
+        const object2 = JSON.parse(users);
+
+        const ctx1 = document.getElementById('mypie').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(object2),
+                datasets: [{
+                    label: '# of Logs',
+                    data: Object.values(object2),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(160, 110, 255)',
+                        'rgba(10, 122, 240)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    hoverOffset: 7
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>
