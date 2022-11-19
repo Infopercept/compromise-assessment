@@ -52,8 +52,13 @@
     - Run the following command: `pip3 install -r requirements.txt`
     - it will download all the required denpendency.
 
-4. Run the compromise assessment script
-   - There are three arguments in the command `1.days`, `2.record_limit`, and `3.service_name`
+4. Clone the GitHub repository
+    - GitHub repo: https://github.com/Infopercept/compromise-assessment
+
+5. Run the compromise assessment script
+   - You can use this arguments to make user specific choices.
+   - Arguments are optional. And the arguments are: `days`, `record_limit`, and `service_name`
+   - Command for running the script is:
       - python3 compromise-assessment.py -days {`YOUR DAYS`} -record_limit {`YOUR RECORD LIMIT`} -service_name {`YOUR SERVICE NAME`}
 
 ## 🎦 Repository Visualization
@@ -61,7 +66,6 @@
     <img alt="Report" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/report-ss.png" /><br>
     <img alt="Report" src="https://github.com/Infopercept/compromise-assessment/blob/main/templates/report-ss-2.png" />
 </div>
-
 
 
 ## ⚖️ License
