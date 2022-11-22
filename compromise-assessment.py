@@ -64,14 +64,13 @@ try:
 
     # adding the argumets in argument parser
     parser.add_argument("-days", required=False,
-                        help="days in integer so that logs fetchs from the current date to last given days.")
+                        help="Give me an integer value so that I can fetch the logs for you from the cloud trail from the current date to the last given days.")
 
     parser.add_argument("-record_limit", required=False,
-                        help="record_limit is the number of record you want to fetch from the cloudtrail.")
+                        help="Give me an integer value so that I can fetch the logs form the cloud trail according to the given number.")
 
     parser.add_argument("-service_name", required=False,
-                        help="service_name is the parameter used for filtering out specific service's event.")
-    args = parser.parse_args()
+                        help="Give me a string as a service name so that I can fetch the cloud trail logs for the given service only.")
 
     if args.days == None and args.record_limit == None and args.service_name == None:
         parameter_used = f"compromise-assessment.py -days 90 -record_limit {rec_lim}"
