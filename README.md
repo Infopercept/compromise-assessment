@@ -148,5 +148,4 @@ Copyright 2022 Infopercept. [Copy of the license](LICENSE).
 
 👤 **Bhavik Prajapati**
 
-- Twitter: [@_BhavikP_55_](https://twitter.com/_BhavikP_55_)
-- Github: [@PrajapatiBhavik](https://github.com/PrajapatiBhavik)
+- Github: [@BhavikDevInfopercept](https://github.com/BhavikDevInfopercept)
